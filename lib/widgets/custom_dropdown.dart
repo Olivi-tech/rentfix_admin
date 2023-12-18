@@ -32,7 +32,8 @@ class DropDownWidget extends StatelessWidget {
           AppImages.downArrowIcon,
           width: iconWidth,
           height: iconHeight,
-          colorFilter: ColorFilter.mode(AppColors.darkGrey, BlendMode.srcIn),
+          colorFilter:
+              const ColorFilter.mode(AppColors.darkGrey, BlendMode.srcIn),
         ),
         menuMaxHeight: 300,
         underline: const SizedBox(),

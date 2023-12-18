@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rent_fix_admin/constants/constants.dart';
 import 'package:rent_fix_admin/widgets/widgets.dart';
 
-class TenantsScreen extends StatefulWidget {
-  const TenantsScreen({super.key});
+class PaymentScreen extends StatefulWidget {
+  const PaymentScreen({super.key});
 
   @override
-  State<TenantsScreen> createState() => _TenantsScreenState();
+  State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _TenantsScreenState extends State<TenantsScreen> {
+class _PaymentScreenState extends State<PaymentScreen> {
   TextEditingController recentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _TenantsScreenState extends State<TenantsScreen> {
                 child: Row(
                   children: [
                     CustomText(
-                      label: 'Tenant List',
+                      label: 'Payment Management',
                       color: AppColors.black,
                       size: constraints.maxWidth > 600
                           ? FontSize.large
@@ -96,7 +96,7 @@ class _TenantsScreenState extends State<TenantsScreen> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Table(
-                      defaultColumnWidth: const FixedColumnWidth(196),
+                      defaultColumnWidth: const FixedColumnWidth(146),
                       defaultVerticalAlignment:
                           TableCellVerticalAlignment.middle,
                       children: [
@@ -109,9 +109,11 @@ class _TenantsScreenState extends State<TenantsScreen> {
                             for (var columnName in [
                               '#',
                               'Name',
-                              'Email ID',
-                              'Fin ID',
-                              'Pay Slip',
+                              'Repayment Duration',
+                              'Total Payment',
+                              '1% Service Fee',
+                              '3% Admin Fee',
+                              'Deducted Payment',
                               'Status',
                             ])
                               Container(
@@ -127,9 +129,9 @@ class _TenantsScreenState extends State<TenantsScreen> {
                           ],
                         ),
                         // Data Rows
-                        for (int row = 0; row < 6; row++) ...[
+                        for (int row = 0; row < 8; row++) ...[
                           TableRow(children: [
-                            for (int i = 0; i <= 5; i++)
+                            for (int i = 0; i <= 7; i++)
                               const Divider(
                                 height: 1,
                                 thickness: 1,
@@ -146,49 +148,42 @@ class _TenantsScreenState extends State<TenantsScreen> {
                               for (var data in [
                                 '1',
                                 'Jacob Miller',
-                                'username@email.com',
-                                'S9418641B',
-                                'View Here',
-                                'Pending',
+                                '12 months',
+                                '\$96,000',
+                                '\$960',
+                                '\$2,880',
+                                '\$7,680',
+                                'Paid',
                               ])
                                 Container(
                                   padding: const EdgeInsets.only(
                                       top: 15, bottom: 15, left: 15, right: 80),
-                                  child: data.contains('View Here')
-                                      ? CustomText(
-                                          label: data,
-                                          color: Colors.blue,
-                                          size: FontSize.small,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: Colors.blue,
-                                          weight: FontWeight.w400,
-                                        )
-                                      : data.contains('Pending')
-                                          ? Container(
-                                              width: 50,
-                                              height: 30,
-                                              decoration: ShapeDecoration(
-                                                color: Colors.blue,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(24),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                child: CustomText(
-                                                  label: data,
-                                                  color: Colors.white,
-                                                  size: FontSize.small,
-                                                  weight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            )
-                                          : CustomText(
+                                  child: data.contains('Paid')
+                                      ? Container(
+                                          width: 50,
+                                          height: 30,
+                                          decoration: ShapeDecoration(
+                                            color: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: CustomText(
                                               label: data,
-                                              color: AppColors.tealGrey,
+                                              color: Colors.white,
                                               size: FontSize.small,
                                               weight: FontWeight.w400,
                                             ),
+                                          ),
+                                        )
+                                      : CustomText(
+                                          label: data,
+                                          color: AppColors.tealGrey,
+                                          size: FontSize.small,
+                                          weight: FontWeight.w400,
+                                        ),
                                 ),
                             ],
                           ),
