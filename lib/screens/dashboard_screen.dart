@@ -1,3 +1,4 @@
+import 'package:adaptive_scrollbar/adaptive_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:rent_fix_admin/constants/constants.dart';
 import 'package:rent_fix_admin/widgets/widgets.dart';
@@ -11,6 +12,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   TextEditingController recentController = TextEditingController();
+
+  ScrollController verticalScrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     late Size mq = MediaQuery.of(context).size;
@@ -149,120 +152,107 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Table(
-                    defaultColumnWidth: const FixedColumnWidth(124),
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    children: [
-                      // Column Headers
-                      TableRow(
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                        ),
-                        children: [
-                          for (var columnName in [
-                            'Title',
-                            'Address',
-                            'Images',
-                            'Move in Date',
-                            'Rental Period',
-                            'Area',
-                            'Rental Type',
-                            'Amount',
-                            'Status',
-                          ])
-                            Container(
-                              padding: const EdgeInsets.only(
-                                top: 15,
-                                left: 15,
-                                bottom: 15,
-                              ),
-                              child: CustomText(
-                                label: columnName,
-                                size: FontSize.small,
-                                weight: FontWeight.w600,
-                                color: AppColors.black,
-                              ),
-                            ),
-                        ],
-                      ),
-                      // Divider Rows and Data Rows
-                      for (int row = 0; row < 6; row++) ...[
-                        TableRow(children: [
-                          for (int i = 0; i <= 8; i++)
-                            const Divider(
-                              height: 1,
-                              thickness: 1,
-                              color: AppColors.blueTeal,
-                            ),
-                        ]),
+                  child: AdaptiveScrollbar(
+                    controller: verticalScrollController,
+                    child: Table(
+                      defaultColumnWidth: const FlexColumnWidth(124),
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      children: [
+                        // Column Headers
                         TableRow(
                           decoration: BoxDecoration(
-                            color: row % 2 == 0
-                                ? AppColors.lightWhite
-                                : Colors.white,
+                            color: Colors.white.withOpacity(0.8),
                           ),
                           children: [
-                            for (var data in [
-                              'Jonas House Stock \nPark Road',
-                              '18 Serangoon Garden Way, Thailand, 54000',
-                              'Image',
-                              'Dec 18, 2024',
-                              '12 months',
-                              '3000 sqft',
-                              'Room',
-                              '\$300/mo',
-                              'Approved'
+                            for (var columnName in [
+                              'Title',
+                              'Address',
+                              'Images',
+                              'Move in Date',
+                              'Rental Period',
+                              'Area',
+                              'Rental Type',
+                              'Amount',
+                              'Status',
                             ])
                               Container(
                                 padding: const EdgeInsets.only(
                                   top: 15,
-                                  bottom: 15,
                                   left: 15,
-                                  right: 15,
+                                  bottom: 15,
                                 ),
-                                child: data.contains('Approved')
-                                    ? Container(
-                                        width: 50,
-                                        height: 30,
-                                        decoration: ShapeDecoration(
-                                          color: Colors.green,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(24),
+                                child: CustomText(
+                                  label: columnName,
+                                  size: FontSize.small,
+                                  weight: FontWeight.w600,
+                                  color: AppColors.black,
+                                ),
+                              ),
+                          ],
+                        ),
+                        // Divider Rows and Data Rows
+                        for (int row = 0; row < 6; row++) ...[
+                          TableRow(children: [
+                            for (int i = 0; i <= 8; i++)
+                              const Divider(
+                                height: 1,
+                                thickness: 1,
+                                color: AppColors.blueTeal,
+                              ),
+                          ]),
+                          TableRow(
+                            decoration: BoxDecoration(
+                              color: row % 2 == 0
+                                  ? AppColors.lightWhite
+                                  : Colors.white,
+                            ),
+                            children: [
+                              for (var data in [
+                                'Jonas House Stock \nPark Road',
+                                '18 Serangoon Garden Way, Thailand, 54000',
+                                'Image',
+                                'Dec 18, 2024',
+                                '12 months',
+                                '3000 sqft',
+                                'Room',
+                                '\$300/mo',
+                                'Approved'
+                              ])
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                    top: 15,
+                                    bottom: 15,
+                                    left: 15,
+                                    right: 15,
+                                  ),
+                                  child: data.contains('Approved')
+                                      ? Container(
+                                          width: 50,
+                                          height: 30,
+                                          decoration: ShapeDecoration(
+                                            color: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(24),
+                                            ),
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: CustomText(
-                                            label: data,
-                                            color: Colors.white,
-                                            size: FontSize.small,
-                                            weight: FontWeight.w400,
+                                          child: Center(
+                                            child: CustomText(
+                                              label: data,
+                                              color: Colors.white,
+                                              size: FontSize.small,
+                                              weight: FontWeight.w400,
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    : data.contains('Image')
-                                        ? SizedBox(
-                                            width: 116,
-                                            height: 36,
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  width: 36,
-                                                  height: 36,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                        AppImages.propertyImage,
-                                                      ),
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left: 20,
-                                                  child: Container(
+                                        )
+                                      : data.contains('Image')
+                                          ? SizedBox(
+                                              width: 116,
+                                              height: 36,
+                                              child: Stack(
+                                                children: [
+                                                  Container(
                                                     width: 36,
                                                     height: 36,
                                                     decoration:
@@ -277,42 +267,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                Positioned(
-                                                  left: 40,
-                                                  child: Container(
-                                                    width: 36,
-                                                    height: 36,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color:
-                                                          AppColors.turquoise,
-                                                    ),
-                                                    child: const Center(
-                                                      child: CustomText(
-                                                        label: '+3',
-                                                        color: Colors.white,
-                                                        size: FontSize.xxMedium,
-                                                        weight: FontWeight.w500,
+                                                  Positioned(
+                                                    left: 20,
+                                                    child: Container(
+                                                      width: 36,
+                                                      height: 36,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                          image: AssetImage(
+                                                            AppImages
+                                                                .propertyImage,
+                                                          ),
+                                                          fit: BoxFit.fill,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                  Positioned(
+                                                    left: 40,
+                                                    child: Container(
+                                                      width: 36,
+                                                      height: 36,
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color:
+                                                            AppColors.turquoise,
+                                                      ),
+                                                      child: const Center(
+                                                        child: CustomText(
+                                                          label: '+3',
+                                                          color: Colors.white,
+                                                          size:
+                                                              FontSize.xxMedium,
+                                                          weight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : CustomText(
+                                              label: data,
+                                              color: AppColors.tealGrey,
+                                              size: FontSize.small,
+                                              weight: FontWeight.w400,
                                             ),
-                                          )
-                                        : CustomText(
-                                            label: data,
-                                            color: AppColors.tealGrey,
-                                            size: FontSize.small,
-                                            weight: FontWeight.w400,
-                                          ),
-                              ),
-                          ],
-                        ),
+                                ),
+                            ],
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
